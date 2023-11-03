@@ -12,12 +12,12 @@ This API uses HTTP VERBS to communicate and HTTP [response codes] to indenticate
   POST /signup
 ```
 
-| Parameter   | Type     | Description                              |
-| :---------- | :------- | :--------------------------------------- |
-| `name` | `string` | **Required**. Name of user to create     |
-| `email`     | `string` | **Required**. Email of user to create    |
-| `phone`     | `string` | **Required**. Phone of user to create    |
-| `password`  | `string` | **Required**. Password of user to create |
+| Parameter  | Type     | Description                              |
+| :--------- | :------- | :--------------------------------------- |
+| `name`     | `string` | **Required**. Name of user to create     |
+| `email`    | `string` | **Required**. Email of user to create    |
+| `phone`    | `string` | **Required**. Phone of user to create    |
+| `password` | `string` | **Required**. Password of user to create |
 
 | Response  | Type     | Description                                                       |
 | :-------- | :------- | :---------------------------------------------------------------- |
@@ -330,7 +330,7 @@ To run this project, you will need to add the following environment variables to
 
 `APPLICATION_PORT=`
 
-`DATABASE_NAME=hotel_reservation`
+`DATABASE_NAME=reservation_api`
 
 `DATABASE_HOST=`
 
@@ -342,15 +342,9 @@ To run this project, you will need to add the following environment variables to
 
 `DATABASE_URI=`
 
-`MONGO_DB_AUTH=`
-
-`SECRETKEY=`
-
 ## Authors
 
-- [@St80ene](https://github.com/St80ene)
-
-- [@AbetangJoseph](https://github.com/AbetangJoseph)
+- [@Densu341](https://github.com/Densu341)
 
 ## Demo
 
@@ -377,7 +371,7 @@ For production
 Clone the project
 
 ```bash
-  git clone git@github.com:St80ene/My-Hotel-Reservation-API.git
+  git clone https://github.com/Roemah-Djogja/Reservation_App_Backend.git
 ```
 
 Go to the project directory
@@ -400,9 +394,7 @@ Start the server
 
 ## Tech Stack
 
-**Client:** NuxtjsS
-
-**Server:** Node, Express, MongoDB, Mongoose
+**Server:** Node, Express, Mysql, Prisma
 
 ## Installation
 
