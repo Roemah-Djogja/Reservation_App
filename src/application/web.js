@@ -1,6 +1,6 @@
 import express from "express";
-// import { publicRouter } from "../routes/public-api.js";
-// import { errorMiddleware } from "../middleware/error-middleware.js";
+import { publicRouter } from "../routes/publicApi.js";
+import { errorMiddleware } from "../middleware/errorMiddleware.js";
 // import { userRouter } from "../routes/api.js";
 
 export const web = express();
@@ -10,6 +10,6 @@ web.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// web.use(publicRouter);
+web.use(publicRouter);
 // web.use(userRouter);
-// web.use(errorMiddleware);
+web.use(errorMiddleware);
