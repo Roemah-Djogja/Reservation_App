@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const port = process.env.APPLICATION_PORT || 3000;
 dotenv.config();
 const authRouter = require("./routes/AuthRouter");
+const roomRouter = require("./routes/RoomRouter");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const { errorHandler, notFound } = require("./middleware/ErrorHandle");
@@ -16,11 +17,12 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("API Start up and Running!");
+  res.send("Server up and Running...");
 });
 
 // routing
 app.use(`/api/v1/auth`, authRouter);
+app.use(`/api/v1/rooms`, roomRouter);
 
 // not found
 app.use(notFound);

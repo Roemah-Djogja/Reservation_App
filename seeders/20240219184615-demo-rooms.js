@@ -1,6 +1,5 @@
 "use strict";
 const { v4: uuidv4 } = require("uuid");
-const bcrypt = require("bcrypt");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -14,27 +13,29 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-
-    const salt = await bcrypt.genSaltSync(10);
-    const adminId = await queryInterface.rawSelect(
-      "Roles",
+    const userId = await queryInterface.rawSelect(
+      "Users",
       {
         where: {
-          nama_role: "admin",
+          email: "admin@mail.com",
         },
       },
       ["id"]
     );
-    return queryInterface.bulkInsert("Users", [
-      {
-        id: uuidv4(),
-        fullname: "Admin",
-        phone: "+6281234567890",
-        email: "admin@mail.com",
-        password: bcrypt.hashSync("administrator", salt),
-        role_id: adminId,
-      },
-    ]);
+    await queryInterface.bulkInsert(
+      "Rooms",
+      [
+        {
+          id: uuidv4(),
+          room_name: "Room 1",
+          room_capacity: 2,
+          room_status: "Available",
+          room_price: 170000,
+          user_id: userId,
+        },
+      ],
+      ["id"]
+    );
   },
 
   async down(queryInterface, Sequelize) {
@@ -44,6 +45,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Users", null, {});
+    await queryInterface.bulkDelete("Rooms", null, {});
   },
 };
