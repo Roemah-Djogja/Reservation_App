@@ -29,6 +29,7 @@ module.exports = {
       {
         id: uuidv4(),
         fullname: "Admin",
+        phone: "+6281234567890",
         email: "admin@mail.com",
         password: bcrypt.hashSync("administrator", salt),
         role_id: adminId,

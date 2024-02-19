@@ -42,6 +42,7 @@ exports.registerUser = async (req, res) => {
     const newUser = await Users.create({
       fullname: req.body.fullname,
       email: req.body.email,
+      phone: req.body.phone,
       password: req.body.password,
     });
 
@@ -103,6 +104,7 @@ exports.getMe = async (req, res) => {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
+        phone: user.phone,
         role_id: user.role_id,
       },
     });
