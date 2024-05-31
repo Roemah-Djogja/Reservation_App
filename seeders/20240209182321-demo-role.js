@@ -17,14 +17,20 @@ module.exports = {
       {
         id: uuidv4(),
         nama_role: "admin",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         id: uuidv4(),
         nama_role: "pengelola",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         id: uuidv4(),
-        nama_role: "user",
+        nama_role: "pengguna",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
   },

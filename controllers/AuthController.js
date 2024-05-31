@@ -39,18 +39,34 @@ exports.registerUser = async (req, res) => {
       });
     }
 
+    const existingUser = await Users.findOne({
+      where: { email: req.body.email },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Validation error",
+        error: ["User with this email already exists"],
+      });
+    }
+
+    const Role = require("../models").Role;
+    const role = await Role.findOne({
+      where: { nama_role: "pengguna" },
+    });
+
     const newUser = await Users.create({
       fullname: req.body.fullname,
       email: req.body.email,
-      phone: req.body.phone,
       password: req.body.password,
+      role_id: role.id,
     });
 
     createSendToken(newUser, 201, res);
   } catch (error) {
     return res.status(400).json({
       message: "Validation error",
-      error: error.errors.map((err) => err.message),
+      error: error.message,
     });
   }
 };
@@ -104,14 +120,13 @@ exports.getMe = async (req, res) => {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
-        phone: user.phone,
         role_id: user.role_id,
       },
     });
+  } else {
+    return res.status(404).json({
+      status: "fail",
+      message: "User not found",
+    });
   }
-
-  return res.status(404).json({
-    status: "fail",
-    message: "User not found",
-  });
 };

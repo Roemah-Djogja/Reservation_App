@@ -34,20 +34,9 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
-      phone: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-        validate: {
-          is: /^\+(?:[0-9] ?){6,14}[0-9]$/i, // validasi nomor telepon internasional
-        },
-      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          len: [6, 20],
-        },
       },
       role_id: {
         type: DataTypes.UUID,
@@ -61,18 +50,18 @@ module.exports = (sequelize, DataTypes) => {
               const salt = bcrypt.genSaltSync(10);
               user.password = bcrypt.hashSync(user.password, salt);
             }
-            if (!user.role_id) {
-              const Role = sequelize.models.Role;
-              const roleUser = await Role.findOne({
-                where: { nama_role: "user" },
-              });
-              if (!roleUser) {
-                throw new Error("Role 'user' not found.");
-              }
-              user.role_id = roleUser.id;
-            }
           } catch (error) {
             throw new Error(`Error in beforeCreate hook: ${error.message}`);
+          }
+        },
+        beforeUpdate: async (user) => {
+          try {
+            if (user.password) {
+              const salt = bcrypt.genSaltSync(10);
+              user.password = bcrypt.hashSync(user.password, salt);
+            }
+          } catch (error) {
+            throw new Error(`Error in beforeUpdate hook: ${error.message}`);
           }
         },
       },
