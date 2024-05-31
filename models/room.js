@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Rooms extends Model {
     /**
@@ -19,25 +20,29 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
-      room_name: {
+      nomor_kamar: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
-      room_capacity: {
+      fasilitas: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      jml_tamu: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      room_status: {
-        type: DataTypes.ENUM("Available", "Reserved", "Occupied"),
+      harga: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
-      room_price: {
-        type: DataTypes.INTEGER,
+      url_gambar: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      user_id: {
+      type_id: {
         type: DataTypes.UUID,
+        allowNull: false,
       },
     },
     {
@@ -45,5 +50,13 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Rooms",
     }
   );
+
+  Rooms.associate = (models) => {
+    Rooms.belongsTo(models.Types, {
+      foreignKey: "type_id",
+      as: "type",
+    });
+  };
+
   return Rooms;
 };

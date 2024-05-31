@@ -1,51 +1,30 @@
-const jwt = require("jsonwebtoken");
 const { Users, Role } = require("../models");
+const jwt = require("jsonwebtoken");
 
 // middleware can be use on protect routes
 exports.authMiddleware = async (req, res, next) => {
-  // get token
   let token;
-  //   if (
-  //     req.headers.authorization &&
-  //     req.headers.authorization.startsWith("Bearer")
-  //   ) {
-  //     token = req.headers.authorization.split(" ")[1];
-  //   }
-  token = req.cookies.jwt;
 
-  if (!token) {
+  // Check for token in cookies (modify based on your implementation)
+  token = req.cookies.jwt;
+  try {
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    // Access user information from decoded data or database
+    const user = await Users.findByPk(decoded.id); // Assuming Users model
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    // console.error("Error verifying token:", error);
     return res.status(401).json({
       status: 401,
       message: "Unauthorized Access",
     });
   }
-
-  // decode verifikasi token
-  let decoded;
-  try {
-    decoded = await jwt.verify(token, process.env.JWT_SECRET);
-  } catch (err) {
-    return next(
-      res.status(401).json({
-        error: err,
-        message: "Invalid Token",
-      })
-    );
-  }
-
-  // get user by decoded condition
-  const currentUser = await Users.findByPk(decoded.id);
-
-  if (!currentUser) {
-    return res.status(401).json({
-      status: 401,
-      message: "User not found",
-    });
-  }
-
-  req.user = currentUser;
-
-  next();
 };
 
 // example :
